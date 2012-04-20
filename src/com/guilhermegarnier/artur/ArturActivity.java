@@ -1,27 +1,36 @@
 package com.guilhermegarnier.artur;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 public class ArturActivity extends Activity {
 	protected TextView weeksLabel;
 	protected TextView percentageLabel;
 	protected TextView countdownLabel;
+	protected TextView birthDateLabel;
+	private Button pickDate;
 
 	protected CountDownTimer brewCountDownTimer;
 	private TimerTask timer;
 
-	private Date birthDate;
+	private Calendar birthDate;
 	private float weeks;
 	private double percentage;
 	private String countdown;
+
+	static final int DATE_DIALOG_ID = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,15 +40,57 @@ public class ArturActivity extends Activity {
 		weeksLabel = (TextView) findViewById(R.id.weeks);
 		percentageLabel = (TextView) findViewById(R.id.percentage);
 		countdownLabel = (TextView) findViewById(R.id.countdown);
+		birthDateLabel = (TextView) findViewById(R.id.birthDate);
+		pickDate = (Button) findViewById(R.id.pickDate);
 
-		// TODO: fazer a data funcionar decentemente (isso eh 30/05/2012!!!)
-		birthDate = new Date(112, 4, 30);
+		pickDate.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				showDialog(DATE_DIALOG_ID);
+			}
+		});
+
+		setDefaultBirthDate();
+		showBirthDate();
 		startTimer();
 	}
 
+	private void setDefaultBirthDate() {
+		// TODO: carregar configuracao
+		birthDate = Calendar.getInstance();
+		birthDate.set(2012, Calendar.MAY, 30, 0, 0, 0);
+	}
+
+	private void showBirthDate() {
+		birthDateLabel.setText(String.format("%02d/%02d/%04d",
+				birthDate.get(Calendar.DAY_OF_MONTH),
+				birthDate.get(Calendar.MONTH),
+				birthDate.get(Calendar.YEAR)));
+	}
+
+	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+			// TODO: armazenar configuracao
+			birthDate.set(year, monthOfYear, dayOfMonth);
+			showBirthDate();
+			updateDisplay();
+		}
+	};
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DATE_DIALOG_ID:
+			return new DatePickerDialog(this, dateSetListener,
+					birthDate.get(Calendar.YEAR),
+					birthDate.get(Calendar.MONTH),
+					birthDate.get(Calendar.DAY_OF_MONTH));
+		}
+		return null;
+	}
+
 	private void calculate() {
-		Date now = new Date();
-		float diff = birthDate.getTime() - now.getTime();
+		final Calendar now = Calendar.getInstance();
+		float diff = birthDate.getTimeInMillis() - now.getTimeInMillis();
 		weeks = 40 - (diff / (1000 * 60 * 60 * 24 * 7));
 		percentage = weeks / 0.4;
 		calculateCountdown(diff);
@@ -63,14 +114,18 @@ public class ArturActivity extends Activity {
 		countdownLabel.setText(countdown);
 	}
 
+	private void updateDisplay() {
+		calculate();
+		showValues();
+	}
+
 	private void startTimer() {
 		final Handler handler = new Handler();
 		timer = new TimerTask() {
 			public void run() {
 				handler.post(new Runnable() {
 					public void run() {
-						calculate();
-						showValues();
+						updateDisplay();
 					}
 				});
 			}

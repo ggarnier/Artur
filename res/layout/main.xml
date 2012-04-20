@@ -8,7 +8,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="50dip"
+    android:paddingTop="25dip"
     android:paddingLeft="10dip"
     android:gravity="center">
     <TextView
@@ -28,7 +28,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="50dip"
+    android:paddingTop="25dip"
     android:paddingLeft="10dip"
     android:gravity="center">
     <TextView
@@ -48,7 +48,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="50dip"
+    android:paddingTop="25dip"
     android:paddingLeft="10dip"
     android:gravity="center">
     <TextView
@@ -57,5 +57,38 @@
       android:text="0"
       android:textSize="30dip"
       android:id="@+id/countdown" />
+  </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="35dip"
+    android:paddingLeft="10dip"
+    android:gravity="center">
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="18dip"
+      android:paddingLeft="3dip"
+      android:text="Data prevista: " />
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="0"
+      android:textSize="20dip"
+      android:id="@+id/birthDate" />
+  </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="25dip"
+    android:paddingLeft="10dip"
+    android:gravity="center">
+	<Button
+	  android:id="@+id/pickDate"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:text="Alterar data" />
   </LinearLayout>
 </LinearLayout>
