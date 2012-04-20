@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -16,6 +17,10 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 public class ArturActivity extends Activity {
+	protected static final String SHARED_PREFS_NAME = "artur_preferences";
+	protected static final String BIRTH_DATE_SHARED_PREF = "birth_date";
+	protected static final String DEFAULT_BIRTH_DATE = "2012-" + Calendar.MAY + "-30";
+
 	protected TextView weeksLabel;
 	protected TextView percentageLabel;
 	protected TextView countdownLabel;
@@ -55,21 +60,25 @@ public class ArturActivity extends Activity {
 	}
 
 	private void setDefaultBirthDate() {
-		// TODO: carregar configuracao
+		SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE);
+		String[] birthDateFields = sharedPreferences.getString(BIRTH_DATE_SHARED_PREF, DEFAULT_BIRTH_DATE).split("-");
 		birthDate = Calendar.getInstance();
-		birthDate.set(2012, Calendar.MAY, 30, 0, 0, 0);
+		birthDate.set(Integer.valueOf(birthDateFields[0]), Integer.valueOf(birthDateFields[1]), Integer.valueOf(birthDateFields[2]), 0, 0, 0);
 	}
 
 	private void showBirthDate() {
 		birthDateLabel.setText(String.format("%02d/%02d/%04d",
 				birthDate.get(Calendar.DAY_OF_MONTH),
-				birthDate.get(Calendar.MONTH),
+				birthDate.get(Calendar.MONTH)+1,
 				birthDate.get(Calendar.YEAR)));
 	}
 
 	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			// TODO: armazenar configuracao
+			SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE).edit();
+			editor.putString(BIRTH_DATE_SHARED_PREF, String.format("%04d-%02d-%02d", birthDate.get(Calendar.YEAR), birthDate.get(Calendar.MONTH), birthDate.get(Calendar.DAY_OF_MONTH)));
+			editor.commit();
+
 			birthDate.set(year, monthOfYear, dayOfMonth);
 			showBirthDate();
 			updateDisplay();
