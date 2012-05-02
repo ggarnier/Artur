@@ -75,11 +75,12 @@ public class ArturActivity extends Activity {
 
 	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+			birthDate.set(year, monthOfYear, dayOfMonth);
+
 			SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE).edit();
 			editor.putString(BIRTH_DATE_SHARED_PREF, String.format("%04d-%02d-%02d", birthDate.get(Calendar.YEAR), birthDate.get(Calendar.MONTH), birthDate.get(Calendar.DAY_OF_MONTH)));
 			editor.commit();
 
-			birthDate.set(year, monthOfYear, dayOfMonth);
 			showBirthDate();
 			updateDisplay();
 		}
