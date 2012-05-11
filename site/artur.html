@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Artur countdown</title>
+  <meta name="description" content="Artur countdown">
+
+  <style type="text/css">
+    body {overflow:hidden;background-color: #000}
+    #container {color: #FFF; position: absolute; top: 10%; left: 20%}
+    #weeks, #percentage {font-size: 400%; margin-bottom: 5%}
+    #bar {border: 1px solid #FFF; width: 300px; height: 20px; margin-bottom: 5%; margin-left: 15%}
+    #complete {background-color: #FFF; height: 100%}
+    #time {font-size: 600%; margin-bottom: 5%}
+    #download {margin-left: 25%;}
+  </style>
+</head>
+
+<body onload="setValues()">
+<div id="container">
+  <div id="weeks">
+  </div>
+  <div id="percentage">
+  </div>
+  <div id="bar">
+    <div id="complete">
+    </div>
+  </div>
+  <div id="time">
+  </div>
+  <a id="download" href="http://guilhermegarnier.com/artur/artur-1.3.apk">
+    <img src="ico_androidmarket.png" />
+  </a>
+</div>
+
+  <script type="text/javascript">
+  <!--
+    function setValues() {
+      nascimento = new Date(2012,4,30,0,0,0,0);
+      var weeks = calculateWeeks();
+      var percentage = calculatePercentage();
+      document.getElementById("weeks").innerHTML = "" + weeks + " semanas";
+      document.getElementById("percentage").innerHTML = percentage + "% completo";
+      document.getElementById("complete").style.width = percentage + "%";
+      updateTimer(nascimento);
+    }
+
+    function calculateWeeks() {
+      var total = 40;
+      var complete = total - (remainingTime()/(60*60*24*7));
+      return Math.round(100 * complete) / 100;
+    }
+
+    function calculatePercentage() {
+      var total = 40 * 7 * 24 * 60 * 60;
+      var complete = (total - remainingTime()) / total;
+      return Math.round(10000 * complete) / 100;
+    }
+
+    function updateTimer() {
+      var diff = remainingTime();
+      var d = Math.floor(diff / (3600*24));
+      var resto = diff - (d*3600*24);
+      var h = Math.floor(resto / 3600);
+      resto = resto - (h*3600);
+      var m = Math.floor(resto / 60);
+      resto = resto - (m*60);
+      var s = resto;
+
+      if (h < 10) {h = "0" + h;}
+      if (m < 10) {m = "0" + m;}
+      if (s < 10) {s = "0" + s;}
+
+      document.getElementById("time").innerHTML = "" + d + "d " + h + ":" + m + ":" + s;
+      setTimeout("updateTimer()", 1000);
+    }
+
+    function remainingTime() {
+      return Math.ceil((nascimento.getTime() - (new Date()).getTime()) / 1000);
+    }
+    -->
+  </script>
+</body>
+</html>
