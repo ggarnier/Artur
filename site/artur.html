@@ -35,8 +35,12 @@
 
   <script type="text/javascript">
   <!--
+    var parms = new Object();
+    window.location.search.replace(/([^?=&]+)(=([^&]*))?/g, function($0, $1, $2, $3){parms[$1] = $3;});
+    var d = (parms['d'] != undefined ? parms['d'] : '20120530');
+
     function setValues() {
-      nascimento = new Date(2012,4,30,0,0,0,0);
+      nascimento = new Date(d.substring(0,4),d.substring(4,6)-1,d.substring(6,8),0,0,0,0);
       var weeks = calculateWeeks();
       var percentage = calculatePercentage();
       document.getElementById("weeks").innerHTML = "" + weeks + " semanas";
